@@ -8,9 +8,8 @@ from pathlib import Path
 
 import pytest
 
-DEFAULT_HOME = Path.home() / "Downloads/ELSTER-ERiC-45/unpacked/ERiC-45.1.5.0/Darwin-universal"
-os.environ.setdefault("ERIC_HOME", str(DEFAULT_HOME))
-HOME = Path(os.environ["ERIC_HOME"])
+# Point ERIC_HOME at your extracted ERiC platform folder to run the integration tests.
+HOME = Path(os.environ.get("ERIC_HOME", "/nonexistent-eric-home"))
 TEST_CERT = HOME / "Beispiel/ericdemo-python/test-softidnr-pse.pfx"
 SAMPLE_USTVA = HOME.parent / "Dokumentation/Datenarten/ElsterAnmeldung/UStVA/Beispiele/UStVA_2026.xml"
 

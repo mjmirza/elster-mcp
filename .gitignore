@@ -1,11 +1,54 @@
+# Python and tooling
 .venv/
 __pycache__/
 *.pyc
 .ruff_cache/
 .pytest_cache/
-*.pfx
-*.p12
+.mypy_cache/
+.coverage
+htmlcov/
+dist/
+build/
+*.egg-info/
+
+# Secrets and credentials, never commit
 .env/
 .env*
-dist/
+*.pfx
+*.p12
+*.pem
+*.key
+*.crt
+*.cer
+*.jks
+*.keystore
+secrets*
+credentials*
+*password*
+*token*
+
+# ELSTER and ERiC material, never commit
+# ERiC is licensed by the tax administration and is not redistributable
+ERiC-*/
+ELSTER-ERiC*/
+*.zip
+*.dylib
+*.so
+*.dll
+# Tax returns, receipts and previews carry personal data
+*.xml
+!tests/fixtures/**/*.xml
+*.pdf
+returns/
+receipts/
+# ERiC logs can contain return content
+*.log
+logs/
+.elster-mcp/
+
+# Local and editor files
 .claude/
+.idea/
+.vscode/
+.DS_Store
+*.swp
