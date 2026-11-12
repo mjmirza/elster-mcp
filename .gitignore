@@ -28,8 +28,18 @@ credentials*
 *token*
 
 # ELSTER and ERiC material, never commit
-# ERiC is licensed by the tax administration and is not redistributable
+# The ERiC licence (section 4) only allows shipping ERiC built into a product.
+# Its documentation, schemas and samples may not be published.
 ERiC-*/
+Dokumentation/
+Beispiel/
+ericdemo*/
+ottodemo*/
+*.xsd
+*.xsl
+*.xslt
+*.jar
+*.chm
 ELSTER-ERiC*/
 *.zip
 *.dylib

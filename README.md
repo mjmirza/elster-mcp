@@ -66,9 +66,20 @@ uv run ruff check .
 
 ## Legal
 
-- ERiC and its Python sample wrapper are provided free of charge by the Bayerisches Landesamt für Steuern under their own licence. Neither is part of this repository. elster-mcp loads the wrapper from your own ERiC download at runtime, so you obtain ERiC and accept its licence yourself.
+- ERiC and its Python sample wrapper are provided free of charge by the Bayerisches Landesamt für Steuern under their own licence. Neither is part of this repository. elster-mcp loads the wrapper from your own ERiC download at runtime, so you obtain ERiC, accept its licence yourself, and keep it on the current minimum version.
+- The ERiC documentation, schemas and sample returns are not covered by the ERiC licence for redistribution. Never commit them here; `.gitignore` and CI block them.
+- ELSTER needs your own Hersteller-ID for every return, even an offline check. ERiC refuses the sample ID with error 610301202.
+- Keep your own backups of every return you prepare or send.
 - Only file returns for the certificate holder. Preparing returns for other people is reserved for tax advisors (StBerG).
 - ELSTER is a registered trademark of the Freistaat Bayern. This project is not affiliated with or endorsed by the tax administration. See [docs/TRADEMARKS.md](docs/TRADEMARKS.md).
+
+## Privacy notice from the tax administration
+
+The ERiC licence requires that end users see this notice before using software built on ERiC:
+
+> Datenschutzhinweis durch die Finanzverwaltung: "Mit dieser Software werden personenbezogene Daten im Sinne des Art. 4 Nr. 1 Datenschutzgrundverordnung (DSGVO) und Art. 9 Abs. 1 DSGVO zum Zwecke der Verarbeitung erhoben. Neben den reinen Daten, die zur Steuerveranlagung benötigt werden, erhebt die Software Daten über die Art des Betriebssystems des Nutzers und übermittelt diese an die Finanzverwaltung. Diese Daten werden benötigt, um die ordnungsgemäße Verarbeitung der Daten sicherzustellen und Fehlern im Verarbeitungsprozess vorzubeugen. Die Nutzung der Daten erfolgt im Rahmen des Art. 6 Abs. 1 UAbs. 1 Buchst. e i.V.m. Abs. 3 UAbs. 1 Buchst. b DSGVO i.V.m. bundes- bzw. landesgesetzlicher Steuergesetze durch die Finanzverwaltung und nur für den genannten Zweck."
+
+The tax administration's full GDPR information letter (Articles 12 to 14) ships as Annex 2 of `lizenz.pdf` in your ERiC download. Read it before your first submission.
 
 ## License
 
