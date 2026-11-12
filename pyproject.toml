@@ -1,0 +1,29 @@
+[project]
+name = "elster-mcp"
+version = "0.1.0"
+description = "MCP server for German tax e-filing (ELSTER) via the official ERiC library"
+authors = [{ name = "Mirza Iqbal" }]
+requires-python = ">=3.13"
+dependencies = [
+    "mcp>=2.3.0",
+]
+
+[project.scripts]
+elster-mcp = "elster_mcp:main"
+
+[build-system]
+requires = ["uv_build>=0.11.2,<0.12.0"]
+build-backend = "uv_build"
+
+[dependency-groups]
+dev = [
+    "pytest>=9.2.0",
+    "ruff>=0.17.4",
+]
+
+[tool.ruff]
+line-length = 160
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+filterwarnings = ["error"]

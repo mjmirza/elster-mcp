@@ -1,0 +1,152 @@
+ELSTER-MCP Source-Available License
+Version 1.0, 2026
+
+Copyright (c) 2026 Mirza Iqbal. All rights reserved.
+
+This software and its accompanying files (the "Software") are made available to
+the public under the terms below. By downloading, copying, installing, or using
+the Software, you agree to these terms. If you do not agree, you may not use the
+Software.
+
+Read this first. This is NOT an open-source license. This is NOT the MIT
+license. The Software is source-available and is provided only under the
+restrictions set out here. It is not free for business use, and it is never free
+of the duty to give credit.
+
+
+1. Definitions
+
+   "Author" means Mirza Iqbal, the copyright holder and licensor of the Software.
+
+   "You" means the individual or entity exercising rights under this license.
+
+   "Individual Evaluation Use" means use by a single natural person, acting for
+   themselves and not on behalf of any company, organization, employer, or
+   client, solely to try, test, study, learn from, or evaluate the Software for
+   personal, non-commercial purposes.
+
+   "Business Use" means any use that is not Individual Evaluation Use. It
+   includes use by or for a company, an employer, a client, an agency, or any
+   organization, use in production, use to deliver a paid or unpaid service to a
+   third party, use in an internal business process, and use that supports
+   revenue-generating activity of any kind.
+
+   "Attribution" means a clear and visible credit to the Author and a link to
+   the original project, kept intact in the running product, in its
+   documentation, and in any place where the Software or its output is shown.
+
+
+2. Grant for Individual Evaluation Use
+
+   The Author grants You a personal, non-exclusive, non-transferable, and
+   revocable permission to download, run, and study the Software for Individual
+   Evaluation Use, at no charge, on the condition that You keep every copyright
+   and license notice intact and provide Attribution. An individual does not
+   need prior approval for Individual Evaluation Use.
+
+
+3. Business Use requires prior written consent
+
+   Business Use is not permitted under this license without the prior written
+   approval of the Author. If You intend to use the Software for any Business
+   Use, You must first obtain written consent and a separate commercial
+   agreement from the Author. Contact the Author to request approval, see
+   Section 11. Any Business Use of the Software without that written consent is a
+   breach of this license and an infringement of copyright.
+
+
+4. Attribution is mandatory
+
+   Every permitted use must carry Attribution. You may not remove, hide, or
+   alter the Author's name, the copyright notice, or this license text.
+   Attribution is required for Individual Evaluation Use and for any consented
+   Business Use alike.
+
+
+5. Restrictions
+
+   You may not do any of the following without the prior written consent of the
+   Author.
+
+   - Sell, rent, sublicense, or offer the Software as a paid product or service.
+   - Redistribute the Software, modified or unmodified, as your own work.
+   - Remove or obscure any notice, credit, or license text.
+   - Use the Author's name to endorse or promote a product.
+   - State or imply that the Author warrants, supports, or is responsible for
+     your deployment.
+   - Use the Software, or its structure, its logic, its tool definitions, or its
+     endpoint mappings, as input to an artificial intelligence system, a machine
+     learning model, a code generation assistant, or any automated tool in order
+     to reproduce, clone, reimplement, port, translate, retrain on, or generate a
+     work that is the same as or functionally equivalent to the Software, whether
+     modified or not. Producing such a work by these means is a derivative work
+     that requires the prior written consent of the Author, the same as any other
+     Business Use.
+
+
+6. Third-party trademarks and materials
+
+   ELSTER is a registered trademark of the Freistaat Bayern. ERiC (ELSTER Rich
+   Client) and its sample code are provided by the Bayerisches Landesamt fuer
+   Steuern under their own license. ERiC and its sample code are NOT part of
+   the Software and are NOT licensed to You by this license. To use the
+   Software You must obtain ERiC yourself from the ELSTER developer area and
+   accept the ERiC license, including its conditions on Hersteller-IDs,
+   testing, and the permitted purpose of transmitting tax data.
+
+   This Software is an independent and unofficial work. It is not affiliated
+   with, endorsed by, sponsored by, certified by, or supported by the
+   Freistaat Bayern, the Bayerisches Landesamt fuer Steuern, the German tax
+   administration, or any other owner of a referenced name. Any reference to a
+   third-party name is nominative and used only to describe compatibility. No
+   trademark rights are granted by this license. You are responsible for your
+   own compliance with all third-party terms and with German tax law,
+   including the rules on who may prepare tax returns for others, when You use
+   the Software.
+
+7. No warranty
+
+   The Software is provided "as is" and "as available", without warranty of any
+   kind, whether express or implied. This includes, without limitation, the
+   implied warranties of merchantability, fitness for a particular purpose,
+   title, and non-infringement. The Author does not warrant that the Software is
+   correct, complete, reliable, secure, uninterrupted, or fit for any purpose.
+
+
+8. No responsibility, no liability
+
+   To the maximum extent permitted by law, the Author takes no responsibility
+   for anything that arises from the Software or its use. The Author is not
+   liable for any direct, indirect, incidental, special, consequential, or
+   exemplary loss or damage. This includes, without limitation, any loss of
+   data, revenue, goodwill, or profit, any business interruption, and any harm
+   to Your systems, Your data, Your business, or any third party. This applies
+   whether a claim is based in contract, in tort, in strict liability, or in any
+   other theory, and even if the Author was advised of the possibility of such
+   loss. You use the Software entirely at Your own risk. You are solely
+   responsible for testing it, for keeping Your credentials safe, and for every
+   action that the Software or an AI agent takes against Your data.
+
+
+9. Termination
+
+   This license and every permission it grants end automatically if You breach
+   any term. On termination You must stop all use of the Software and destroy
+   Your copies. Sections 6, 7, 8, and 10 survive termination.
+
+
+10. Governing law
+
+    This license is governed by the laws of the Federal Republic of Germany,
+    without regard to its conflict of law rules. To the extent permitted by law,
+    the courts of Germany have exclusive jurisdiction over any dispute that
+    arises from this license or the Software.
+
+
+11. Contact and commercial licensing
+
+    For written approval, a commercial agreement, paid configuration, hosting,
+    or support, contact the Author through the channels published in the project
+    README. Business Use and any commercial deployment require this written
+    approval first. The Author is glad to help teams get this configured and
+    running under a proper agreement.
