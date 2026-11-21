@@ -12,7 +12,7 @@ Let Claude check and file German tax data through ELSTER, using the official ERi
 - **Find your tax office in seconds.** List every Finanzamt per federal state and look one up by number.
 - **Know your certificate is still good.** See when your ELSTER certificate expires, without opening the ELSTER portal.
 - **Validate a return before you send it.** ERiC checks the XML locally and can write a preview PDF.
-- **File safely.** Submissions are test-only by default. A real filing needs the operator flag and your explicit approval of that exact return.
+- **File safely.** Submissions are test-only by default, and are refused if the test marker cannot be set on the return. A real filing needs the operator flag and your explicit approval of that exact return, and is refused while the return still contains a test marker.
 
 ## From install to first result
 

@@ -233,30 +233,46 @@ def _digits(value: str) -> str:
     return re.sub(r"\D", "", value)
 
 
+def _test_marker_values(xml: str) -> list[str]:
+    return re.findall(r"<Testmerker>([^<]*)</Testmerker>", xml)
+
+
 def _prepare(xml: str, conf: cfg.Config, test: bool) -> str:
-    if not conf.hersteller_id:
-        raise cfg.ConfigError("ELSTER_HERSTELLER_ID is not set. ELSTER rejects returns without your own Hersteller-ID, even for tests.")
+    """Stamp the operator's Hersteller-ID and enforce the test-marker rule.
+
+    ERiC neither inserts nor rejects a Testmerker. A test run that leaves without one can be
+    processed as a real filing, and a real filing must not carry any test marker.
+    """
+    hersteller_id = cfg.require_hersteller_id(conf.hersteller_id)
+    if not re.search(r"<HerstellerID>[^<]*</HerstellerID>", xml):
+        raise cfg.ConfigError(
+            "The return XML has no <HerstellerID> element, so the configured Hersteller-ID cannot be applied. ELSTER rejects a return without one."
+        )
     xml = re.sub(
         r"<HerstellerID>[^<]*</HerstellerID>",
-        f"<HerstellerID>{conf.hersteller_id}</HerstellerID>",
+        f"<HerstellerID>{hersteller_id}</HerstellerID>",
         xml,
     )
-    has_marker = re.search(rf"<Testmerker>{cfg.TEST_MARKER}</Testmerker>", xml) is not None
-    if test and not has_marker:
-        if "<Testmerker>" in xml:
-            xml = re.sub(
-                r"<Testmerker>[^<]*</Testmerker>",
-                f"<Testmerker>{cfg.TEST_MARKER}</Testmerker>",
-                xml,
+    official = f"<Testmerker>{cfg.TEST_MARKER}</Testmerker>"
+    if test:
+        # One official marker, exactly. Any other value is rewritten; a missing marker is inserted
+        # after Verfahren. Anything else is refused rather than sent unmarked.
+        xml = re.sub(r"<Testmerker>[^<]*</Testmerker>", official, xml)
+        if not _test_marker_values(xml):
+            if "</Verfahren>" not in xml:
+                raise cfg.ConfigError(
+                    "Refusing to validate or send this as a test submission: the XML has no <Testmerker> "
+                    "and no </Verfahren> element to attach one to. "
+                    "ERiC does not add the test marker itself, so an unmarked return can be filed for real."
+                )
+            xml = xml.replace("</Verfahren>", f"</Verfahren>{official}", 1)
+        if _test_marker_values(xml) != [cfg.TEST_MARKER]:
+            raise cfg.ConfigError(
+                f"Refusing to validate or send this as a test submission: {official} must appear exactly once. "
+                "ERiC does not add the test marker itself, so an unmarked return can be filed for real."
             )
-        else:
-            xml = xml.replace(
-                "</Verfahren>",
-                f"</Verfahren><Testmerker>{cfg.TEST_MARKER}</Testmerker>",
-                1,
-            )
-    if not test and has_marker:
-        raise cfg.ConfigError("Live submission requested but the XML carries the test marker. Remove <Testmerker> first.")
+    elif re.search(r"<Testmerker\b", xml):
+        raise cfg.ConfigError("Live submission requested but the XML carries a test marker. Remove <Testmerker> first.")
     return xml
 
 
