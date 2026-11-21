@@ -131,8 +131,10 @@ def elster_submit_return(
 ) -> dict:
     """Send a return to ELSTER, signed with the configured certificate.
     Default is a TEST submission (Testmerker 700000004): nothing is filed with the tax office.
+    The server writes that marker and refuses to send if it cannot, because ERiC will not add it.
     A LIVE filing needs live=true, user_confirmed_live=true (only after the user explicitly approved this exact return),
-    and the operator setting ELSTER_ALLOW_LIVE=1. Only file for the certificate holder."""
+    and the operator setting ELSTER_ALLOW_LIVE=1. The return must not contain a test marker.
+    Only file for the certificate holder."""
     if live and not user_confirmed_live:
         return {
             "ok": False,

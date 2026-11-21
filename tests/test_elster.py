@@ -136,6 +136,86 @@ def test_prepare_refuses_live_with_test_marker():
         eric._prepare(xml, conf, test=False)
 
 
+def test_prepare_allows_live_without_test_marker():
+    conf = cfg.Config(HOME, Path("/tmp"), None, "12345", True)
+    xml = "<Verfahren>ElsterAnmeldung</Verfahren><HerstellerID>74931</HerstellerID>"
+    out = eric._prepare(xml, conf, test=False)
+    assert "<Testmerker>" not in out
+    assert "<HerstellerID>12345</HerstellerID>" in out
+
+
+def test_prepare_refuses_live_with_any_test_marker():
+    conf = cfg.Config(HOME, Path("/tmp"), None, "12345", True)
+    xml = "<Verfahren>X</Verfahren><Testmerker>700000001</Testmerker><HerstellerID>1</HerstellerID>"
+    with pytest.raises(cfg.ConfigError, match="test marker"):
+        eric._prepare(xml, conf, test=False)
+
+
+def test_prepare_refuses_live_when_test_marker_is_not_exact():
+    conf = cfg.Config(HOME, Path("/tmp"), None, "12345", True)
+    xml = f"<Verfahren>X</Verfahren><Testmerker> {cfg.TEST_MARKER} </Testmerker><HerstellerID>1</HerstellerID>"
+    with pytest.raises(cfg.ConfigError, match="test marker"):
+        eric._prepare(xml, conf, test=False)
+
+
+def test_prepare_rewrites_other_test_marker_for_test_mode():
+    conf = cfg.Config(HOME, Path("/tmp"), None, "12345", False)
+    xml = "<Verfahren>X</Verfahren><Testmerker>700000001</Testmerker><HerstellerID>1</HerstellerID>"
+    out = eric._prepare(xml, conf, test=True)
+    assert out.count(f"<Testmerker>{cfg.TEST_MARKER}</Testmerker>") == 1
+    assert "700000001" not in out
+
+
+def test_prepare_does_not_duplicate_existing_test_marker():
+    conf = cfg.Config(HOME, Path("/tmp"), None, "12345", False)
+    marker = f"<Testmerker>{cfg.TEST_MARKER}</Testmerker>"
+    xml = f"<Verfahren>ElsterAnmeldung</Verfahren>{marker}<HerstellerID>74931</HerstellerID>"
+    out = eric._prepare(xml, conf, test=True)
+    assert out.count(marker) == 1
+    assert "<HerstellerID>12345</HerstellerID>" in out
+
+
+def test_prepare_refuses_test_xml_that_cannot_carry_the_marker():
+    conf = cfg.Config(HOME, Path("/tmp"), None, "12345", False)
+    xml = "<Elster><HerstellerID>1</HerstellerID><DatenTeil/></Elster>"
+    with pytest.raises(cfg.ConfigError, match="unmarked return"):
+        eric._prepare(xml, conf, test=True)
+
+
+def test_prepare_refuses_duplicate_test_markers():
+    conf = cfg.Config(HOME, Path("/tmp"), None, "12345", False)
+    marker = f"<Testmerker>{cfg.TEST_MARKER}</Testmerker>"
+    xml = f"<Verfahren>X</Verfahren>{marker}{marker}<HerstellerID>1</HerstellerID>"
+    with pytest.raises(cfg.ConfigError, match="exactly once"):
+        eric._prepare(xml, conf, test=True)
+
+
+def test_prepare_requires_hersteller_id_element():
+    conf = cfg.Config(HOME, Path("/tmp"), None, "12345", False)
+    xml = "<Verfahren>ElsterAnmeldung</Verfahren>"
+    with pytest.raises(cfg.ConfigError, match="no <HerstellerID>"):
+        eric._prepare(xml, conf, test=True)
+
+
+def test_prepare_rejects_unsafe_hersteller_id():
+    conf = cfg.Config(HOME, Path("/tmp"), None, "12</HerstellerID><Injected>", False)
+    xml = "<Verfahren>ElsterAnmeldung</Verfahren><HerstellerID>1</HerstellerID>"
+    with pytest.raises(cfg.ConfigError, match="only digits"):
+        eric._prepare(xml, conf, test=True)
+
+
+def test_hersteller_id_must_be_digits_and_not_the_sample():
+    assert cfg.require_hersteller_id("12345") == "12345"
+    with pytest.raises(cfg.ConfigError, match="only digits"):
+        cfg.require_hersteller_id("12ab")
+    with pytest.raises(cfg.ConfigError, match="only digits"):
+        cfg.require_hersteller_id("12²")
+    with pytest.raises(cfg.ConfigError, match="blocked ERiC sample"):
+        cfg.require_hersteller_id("74931")
+    with pytest.raises(cfg.ConfigError, match="not set"):
+        cfg.require_hersteller_id(None)
+
+
 def test_all_tools_registered():
     tools = asyncio.run(server.mcp.list_tools())
     names = {t.name for t in tools}
