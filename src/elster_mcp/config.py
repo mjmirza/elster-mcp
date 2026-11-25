@@ -52,14 +52,33 @@ def load() -> Config:
 
 
 def cert_password() -> str:
-    """Certificate password from ELSTER_CERT_PASSWORD or the stdout of ELSTER_CERT_PASSWORD_CMD."""
+    """Certificate password from ELSTER_CERT_PASSWORD or the stdout of ELSTER_CERT_PASSWORD_CMD.
+
+    A timeout, a command that cannot be parsed or started, and empty output raise ConfigError.
+    The message names that failure only, so a password in the command or its output stays out of the tool result.
+    """
     direct = os.environ.get("ELSTER_CERT_PASSWORD")
     if direct:
         return direct
     cmd = os.environ.get("ELSTER_CERT_PASSWORD_CMD")
-    if cmd:
-        out = subprocess.run(shlex.split(cmd), capture_output=True, text=True, timeout=30, check=False)
-        if out.returncode == 0 and out.stdout:
-            return out.stdout.rstrip("\n")
+    if not cmd:
+        raise ConfigError("Set ELSTER_CERT_PASSWORD or ELSTER_CERT_PASSWORD_CMD to unlock the certificate.")
+    try:
+        argv = shlex.split(cmd)
+    except ValueError as exc:
+        raise ConfigError("ELSTER_CERT_PASSWORD_CMD is not a valid command.") from exc
+    if not argv:
+        raise ConfigError("ELSTER_CERT_PASSWORD_CMD is not a valid command.")
+    try:
+        out = subprocess.run(argv, capture_output=True, text=True, timeout=30, check=False)
+    except subprocess.TimeoutExpired as exc:
+        raise ConfigError("ELSTER_CERT_PASSWORD_CMD timed out.") from exc
+    except OSError as exc:
+        raise ConfigError("ELSTER_CERT_PASSWORD_CMD failed or printed nothing.") from exc
+    except UnicodeDecodeError as exc:
+        raise ConfigError("ELSTER_CERT_PASSWORD_CMD did not print a usable password.") from exc
+    # text mode already turns CRLF into LF; strip both so a raw newline is never part of the PIN.
+    password = out.stdout.rstrip("\r\n")
+    if out.returncode != 0 or password == "":
         raise ConfigError("ELSTER_CERT_PASSWORD_CMD failed or printed nothing.")
-    raise ConfigError("Set ELSTER_CERT_PASSWORD or ELSTER_CERT_PASSWORD_CMD to unlock the certificate.")
+    return password
